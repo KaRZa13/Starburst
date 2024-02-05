@@ -1,8 +1,8 @@
+import random
 import pygame
 from os import path
 from player import Player
 from game import Game
-from bumper import Bumper
 
 # Variables de dossier assets
 img_dir_player = path.join(path.dirname(__file__), "assets/img/player")
@@ -28,11 +28,27 @@ font_name = pygame.font.match_font("arial")
 clock = pygame.time.Clock()
 
 # Enemy
-enemies_color = ['blue', 'red', 'green', 'yellow', 'purple', 'pink']
+enemies_color = ['bleu', 'rouge', 'vert', 'jaune', 'violet', 'rose']
 enemies_img = []
 for i in range(20):
     for color in enemies_color:
         enemy_file = f"{i + 1}-{color}.png"
+        img = pygame.image.load(path.join(img_dir_enemy, enemy_file))
+        img.set_colorkey(WHITE)
+        enemies_img.append(img)
+
+# Bumpers
+bumper_anim = {'blue': [], 'red': [], 'green': []}
+for i in range(7):
+    bumper_blue_file = f'bumper_blue_{i + 1}.png'
+    bumper_red_file = f'bumper_red_{i + 1}.png'
+    bumper_green_file = f'bumper_green_{i + 1}.png'
+    img = pygame.image.load(path.join(img_dir_enemy, bumper_blue_file))
+    bumper_anim['blue'].append(img)
+    img = pygame.image.load(path.join(img_dir_enemy, bumper_red_file))
+    bumper_anim['red'].append(img)
+    img = pygame.image.load(path.join(img_dir_enemy, bumper_green_file))
+    bumper_anim['green'].append(img)
 
 # Importation des éléments sonores
 shoot_sound = pygame.mixer.Sound(path.join(snd_dir, "shoot_player.wav"))
@@ -46,9 +62,9 @@ background_rect = background.get_rect()
 all_sprites = pygame.sprite.Group()
 player_projectiles = pygame.sprite.Group()
 bumpers = pygame.sprite.Group()
-
-
+enemies = pygame.sprite.Group()
 player_flames = pygame.sprite.Group()
+
 player = Player(screen, all_sprites, player_projectiles, player_flames, shoot_sound)
 
 
@@ -65,6 +81,13 @@ while running:
     dt = clock.tick(FPS)
     if not game_over:
         all_sprites.add(player)
+
+    # Création des ennemies
+    if len(enemies) == 0:
+        min_enemy = player.power * 2
+        max_enemy = player.power * 5
+        nb = random.randrange(min_enemy, max_enemy)
+        game.spawn_enemy(nb, enemies_img, player, all_sprites, enemies, WIDTH, HEIGHT)
 
     # Gestion des évènements (clavier)
     for event in pygame.event.get():
@@ -84,12 +107,12 @@ while running:
         # Test
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
-                Bumper.spawn_bumper(player, all_sprites, bumpers)
+                game.spawn_bumper(all_sprites, bumpers, bumper_anim)
 
     # Boucle pour créer les bumpers
     bumper_loop += dt
     if bumper_loop >= 24000:
-        Bumper.spawn_bumper()
+        game.spawn_bumper(all_sprites, bumpers, bumper_anim)
         bumper_loop = 0
 
     # Mise à jour des sprites
