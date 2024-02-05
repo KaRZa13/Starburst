@@ -39,12 +39,12 @@ class Player(pygame.sprite.Sprite):
         all_sprites.add(self.flame)
         self.player_flames.add(self.flame)
 
-    def update_shield_bar(self, surface):
+    def update_bar(self, surface):
+        # Shield bar
         pygame.draw.rect(surface, (255, 255, 255), [8, 1028, self.max_health + 4, 14])
         pygame.draw.rect(surface, (60, 63, 60), [10, 1030, self.max_shield, 10])
         pygame.draw.rect(surface, (64, 171, 236), [10, 1030, self.shield, 10])
-
-    def update_heath_bar(self, surface):
+        # Health bar
         pygame.draw.rect(surface, (255, 255, 255), [8, 1048, self.max_health + 4, 14])
         pygame.draw.rect(surface, (60, 63, 60), [10, 1050, self.max_health, 10])
         pygame.draw.rect(surface, (111, 210, 46), [10, 1050, self.health, 10])

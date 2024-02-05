@@ -27,6 +27,13 @@ pygame.display.set_caption("Shoot 'em up")
 font_name = pygame.font.match_font("arial")
 clock = pygame.time.Clock()
 
+# Enemy
+enemies_color = ['blue', 'red', 'green', 'yellow', 'purple', 'pink']
+enemies_img = []
+for i in range(20):
+    for color in enemies_color:
+        enemy_file = f"{i + 1}-{color}.png"
+
 # Importation des éléments sonores
 shoot_sound = pygame.mixer.Sound(path.join(snd_dir, "shoot_player.wav"))
 shoot_sound.set_volume(0.1)
@@ -77,12 +84,12 @@ while running:
         # Test
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_p:
-                game.spawn_bumper(all_sprites, bumpers)
+                Bumper.spawn_bumper(player, all_sprites, bumpers)
 
     # Boucle pour créer les bumpers
     bumper_loop += dt
     if bumper_loop >= 24000:
-        game.spawn_bumper(all_sprites, bumpers)
+        Bumper.spawn_bumper()
         bumper_loop = 0
 
     # Mise à jour des sprites
@@ -97,8 +104,7 @@ while running:
     screen.blit(background, (background_rel_x - background_rect.width, 0))
     screen.blit(background, (background_rel_x, 0))
     all_sprites.draw(screen)
-    player.update_heath_bar(screen)
-    player.update_shield_bar(screen)
+    player.update_bar(screen)
     player.create_flame(all_sprites)
     game.draw_text(f"Score : {player.score}", 20, 10, 10, screen)
 
