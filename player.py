@@ -13,14 +13,14 @@ class Player(pygame.sprite.Sprite):
         self.player_imgL = pygame.image.load(path.join(self.img_dir_player, "ship_left.png"))
         self.image = pygame.transform.scale(self.player_img, (75, 60))
         self.image.set_colorkey((0, 0, 0))
-        self.model_projectile = "blue"
+        self.model_projectile = "yellow"
         self.all_projectiles = pygame.sprite.Group()
         self.health = 300
         self.max_health = 300
         self.shield = 100
         self.max_shield = 300
-        self.velocity = 5
-        self.power = 3
+        self.velocity = 3
+        self.power = 2
         self.score = 0
         self.shot_delay = 180
         self.rect = self.image.get_rect()
