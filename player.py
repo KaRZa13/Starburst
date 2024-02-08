@@ -13,14 +13,14 @@ class Player(pygame.sprite.Sprite):
         self.player_imgL = pygame.image.load(path.join(self.img_dir_player, "ship_left.png"))
         self.image = pygame.transform.scale(self.player_img, (75, 60))
         self.image.set_colorkey((0, 0, 0))
-        self.model_projectile = "yellow"
+        self.model_projectile = "blue"
         self.all_projectiles = pygame.sprite.Group()
         self.health = 300
         self.max_health = 300
         self.shield = 100
         self.max_shield = 300
         self.velocity = 3
-        self.power = 2
+        self.power = 3
         self.score = 0
         self.shot_delay = 180
         self.rect = self.image.get_rect()
@@ -74,7 +74,10 @@ class Player(pygame.sprite.Sprite):
         now = pygame.time.get_ticks()
         if now - self.last_shot > self.shot_delay:
             self.last_shot = now
-            if self.model_projectile == "blue":
+            positions_blue_projectiles = [25, [5, 45], [5, 25, 45], [0, 20, 40, 60], [-15, 5, 25, 45, 65]]
+            positions_yellow_projectiles = []
+
+            '''if self.model_projectile == "blue":
                 if self.power == 1:
                     projectile1 = Projectile(self.rect.x + 75, self.rect.y + 25, 10, 0, self.model_projectile)
                 if self.power == 2:
@@ -147,6 +150,6 @@ class Player(pygame.sprite.Sprite):
                 self.players_projectiles.add(projectile2)
                 self.players_projectiles.add(projectile3)
                 self.players_projectiles.add(projectile4)
-                self.players_projectiles.add(projectile5)
+                self.players_projectiles.add(projectile5)'''
 
             self.shot_sound.play()

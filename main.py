@@ -109,7 +109,7 @@ while running:
             if event.key == pygame.K_p:
                 game.spawn_bumper(all_sprites, bumpers, bumper_anim)
 
-    # Boucle pour créer les bumpers
+    # Boucle pour créer les Bumpers
     bumper_loop += dt
     if bumper_loop >= 24000:
         game.spawn_bumper(all_sprites, bumpers, bumper_anim)

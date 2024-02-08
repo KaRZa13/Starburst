@@ -32,6 +32,6 @@ class Enemy(pygame.sprite.Sprite):
     def move_sin_x(self):
         if self.angle >= 360:
             self.angle = 0
-        self.rect.center_y += 3
-        self.rect.center_x = self.center_x + self.amplitude * math.cos(self.angle)
+        self.rect.centery += 3
+        self.rect.centerx = self.center_x + self.amplitude * math.cos(self.angle)
         self.angle += 6
