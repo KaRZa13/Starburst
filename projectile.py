@@ -7,9 +7,13 @@ class Projectile(pygame.sprite.Sprite):
         super().__init__()
         self.img_dir_fire = path.join(path.dirname(__file__), "assets/img/fire")
         if model == "yellow":
-            self.image = pygame.image.load(path.join(self.img_dir_fire, "hit_1_yellow.png"))
+            self.image = pygame.image.load(
+                path.join(self.img_dir_fire, "hit_1_yellow.png")
+            )
         if model == "blue":
-            self.image = pygame.image.load(path.join(self.img_dir_fire, "hit_1_blue.png"))
+            self.image = pygame.image.load(
+                path.join(self.img_dir_fire, "hit_1_blue.png")
+            )
         self.imageW = self.image.get_width()
         self.imageH = self.image.get_height()
         self.image = pygame.transform.scale(self.image, (self.imageW, self.imageH))
@@ -18,6 +22,7 @@ class Projectile(pygame.sprite.Sprite):
         self.rect.y = y
         self.speedx = speedx
         self.speedy = speedy
+        self.damage = 100
 
     def update(self):
         self.rect.x += self.speedx

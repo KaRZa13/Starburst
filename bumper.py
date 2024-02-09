@@ -16,6 +16,9 @@ class Bumper(pygame.sprite.Sprite):
         self.velocity = 3
         self.last_update = pygame.time.get_ticks()
         self.nb_anim = 0
+        self.health = 100
+        self.points = 5
+        self.body_damage = 50
 
     def update(self):
         self.anime()
