@@ -5,29 +5,22 @@ from flame import Flame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(
-        self, surface, all_sprites, players_projectiles, player_flames, shoot_sound
-    ):
+    def __init__(self, surface, all_sprites, player_projectiles, player_flames, shoot_sound):
         super().__init__()
         self.img_dir_player = path.join(path.dirname(__file__), "assets/img/player")
         self.player_img = pygame.image.load(path.join(self.img_dir_player, "ship.png"))
-        self.player_imgR = pygame.image.load(
-            path.join(self.img_dir_player, "ship_right.png")
-        )
-        self.player_imgL = pygame.image.load(
-            path.join(self.img_dir_player, "ship_left.png")
-        )
+        self.player_imgR = pygame.image.load(path.join(self.img_dir_player, "ship_right.png"))
+        self.player_imgL = pygame.image.load(path.join(self.img_dir_player, "ship_left.png"))
         self.surface = surface
         self.image = pygame.transform.scale(self.player_img, (75, 60))
         self.image.set_colorkey((0, 0, 0))
-        self.model_projectile = "yellow"
         self.all_projectiles = pygame.sprite.Group()
         self.health = 300
         self.max_health = 300
         self.shield = 100
         self.max_shield = 300
         self.velocity = 3
-        self.power = 2
+        self.power = 5
         self.score = 0
         self.shot_delay = 180
         self.rect = self.image.get_rect()
@@ -35,7 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = surface.get_rect().width - 1900
         self.last_shot = pygame.time.get_ticks()
         self.all_sprites = all_sprites
-        self.players_projectiles = players_projectiles
+        self.player_projectiles = player_projectiles
         self.player_flames = player_flames
         self.flame = Flame(self.rect.x, self.rect.y, self)
         self.shot_sound = shoot_sound
@@ -86,122 +79,13 @@ class Player(pygame.sprite.Sprite):
         now = pygame.time.get_ticks()
         if now - self.last_shot > self.shot_delay:
             self.last_shot = now
-            if self.model_projectile == "blue":
-                if self.power == 1:
-                    projectile1 = Projectile(
-                        self.rect.x + 75, self.rect.y + 25, 10, 0, self.model_projectile
-                    )
-                if self.power == 2:
-                    projectile1 = Projectile(
-                        self.rect.x + 75, self.rect.y + 5, 10, 0, self.model_projectile
-                    )
-                    projectile2 = Projectile(
-                        self.rect.x + 75, self.rect.y + 45, 10, 0, self.model_projectile
-                    )
-                if self.power == 3:
-                    projectile1 = Projectile(
-                        self.rect.x + 75, self.rect.y + 5, 10, 0, self.model_projectile
-                    )
-                    projectile2 = Projectile(
-                        self.rect.x + 75, self.rect.y + 25, 10, 0, self.model_projectile
-                    )
-                    projectile3 = Projectile(
-                        self.rect.x + 75, self.rect.y + 45, 10, 0, self.model_projectile
-                    )
-                if self.power == 4:
-                    projectile1 = Projectile(
-                        self.rect.x + 75, self.rect.y + 0, 10, 0, self.model_projectile
-                    )
-                    projectile2 = Projectile(
-                        self.rect.x + 75, self.rect.y + 20, 10, 0, self.model_projectile
-                    )
-                    projectile3 = Projectile(
-                        self.rect.x + 75, self.rect.y + 40, 10, 0, self.model_projectile
-                    )
-                    projectile4 = Projectile(
-                        self.rect.x + 75, self.rect.y + 60, 10, 0, self.model_projectile
-                    )
-                if self.power == 5:
-                    projectile1 = Projectile(
-                        self.rect.x + 75, self.rect.y - 15, 10, 0, self.model_projectile
-                    )
-                    projectile2 = Projectile(
-                        self.rect.x + 75, self.rect.y + 5, 10, 0, self.model_projectile
-                    )
-                    projectile3 = Projectile(
-                        self.rect.x + 75, self.rect.y + 25, 10, 0, self.model_projectile
-                    )
-                    projectile4 = Projectile(
-                        self.rect.x + 75, self.rect.y + 45, 10, 0, self.model_projectile
-                    )
-                    projectile5 = Projectile(
-                        self.rect.x + 75, self.rect.y + 65, 10, 0, self.model_projectile
-                    )
-
-            if self.model_projectile == "yellow":
-                if self.power == 1:
-                    projectile1 = Projectile(
-                        self.rect.x + 75, self.rect.y + 25, 10, 0, self.model_projectile
-                    )
-                if self.power == 2:
-                    projectile1 = Projectile(
-                        self.rect.x + 75, self.rect.y + 5, 10, -2, self.model_projectile
-                    )
-                    projectile2 = Projectile(
-                        self.rect.x + 75,
-                        self.rect.y + 45,
-                        10,
-                        +2,
-                        self.model_projectile,
-                    )
-                if self.power == 3:
-                    pass
-                if self.power == 4:
-                    pass
-                if self.power == 5:
-                    pass
-
-            if self.power == 1:
-                self.all_sprites.add(projectile1)
-                self.players_projectiles.add(projectile1)
-
-            if self.power == 2:
-                self.all_sprites.add(projectile1)
-                self.all_sprites.add(projectile2)
-                self.players_projectiles.add(projectile1)
-                self.players_projectiles.add(projectile2)
-
-            if self.power == 3:
-                self.all_sprites.add(projectile1)
-                self.all_sprites.add(projectile2)
-                self.all_sprites.add(projectile3)
-                self.players_projectiles.add(projectile1)
-                self.players_projectiles.add(projectile2)
-                self.players_projectiles.add(projectile3)
-
-            if self.power == 4:
-                self.all_sprites.add(projectile1)
-                self.all_sprites.add(projectile2)
-                self.all_sprites.add(projectile3)
-                self.all_sprites.add(projectile4)
-                self.players_projectiles.add(projectile1)
-                self.players_projectiles.add(projectile2)
-                self.players_projectiles.add(projectile3)
-                self.players_projectiles.add(projectile4)
-
-            if self.power == 5:
-                self.all_sprites.add(projectile1)
-                self.all_sprites.add(projectile2)
-                self.all_sprites.add(projectile3)
-                self.all_sprites.add(projectile4)
-                self.all_sprites.add(projectile5)
-                self.players_projectiles.add(projectile1)
-                self.players_projectiles.add(projectile2)
-                self.players_projectiles.add(projectile3)
-                self.players_projectiles.add(projectile4)
-                self.players_projectiles.add(projectile5)
-
-            self.shot_sound.play()
+            y_offsets = [[25], [5, 45], [5, 25, 45], [0, 20, 40, 60], [-15, 5, 25, 45, 65]]
+            for i in range(1, 5):
+                projectiles = [Projectile(self.rect.x + 75, self.rect.y + y, 10, 0)
+                               for y in y_offsets[self.power - 1][:self.power]]
+                self.all_sprites.add(projectiles)
+                self.player_projectiles.add(projectiles)
+                self.shot_sound.play()
 
     def reset_pos(self):
         self.rect.y = self.surface.get_rect().height / 2 - 20

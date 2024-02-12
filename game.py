@@ -133,9 +133,7 @@ class Game:
                 x = 2200
                 y = random.randrange(150, 930)
             for i in range(nb):
-                enemy = Enemy(
-                    img, x, y, move, amplitude, player_x, player_y, WIDTH, HEIGHT
-                )
+                enemy = Enemy(img, x, y, move, amplitude, player_x, player_y, WIDTH, HEIGHT)
                 if i % 2:
                     y += img.get_width()
                 else:

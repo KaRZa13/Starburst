@@ -96,7 +96,6 @@ boss_level = 10
 boss_spawned = False
 velocity = base_velocity
 
-
 while running:
 
     if title_screen:
@@ -160,9 +159,7 @@ while running:
             min_enemy = player.power * 2
             max_enemy = player.power * 5
             nb = random.randrange(min_enemy, max_enemy)
-            game.spawn_enemy(
-                nb, enemies_img, player, all_sprites, enemies, WIDTH, HEIGHT
-            )
+            game.spawn_enemy(nb, enemies_img, player, all_sprites, enemies, WIDTH, HEIGHT)
 
     # Gestion des évènements (clavier)
     for event in pygame.event.get():
@@ -184,18 +181,10 @@ while running:
             if event.key == pygame.K_p:
                 game.spawn_bumper(all_sprites, bumpers, bumper_anim, velocity)
 
-    collisions = pygame.sprite.groupcollide(
-        player.players_projectiles, enemies, True, True
-    )
-    collisions_with_bumpers = pygame.sprite.groupcollide(
-        player.players_projectiles, bumpers, True, True
-    )
-    player_collisions = pygame.sprite.groupcollide(
-        pygame.sprite.Group(player), enemies, False, True
-    )
-    player_collisions_with_bumpers = pygame.sprite.groupcollide(
-        pygame.sprite.Group(player), bumpers, False, True
-    )
+    collisions = pygame.sprite.groupcollide(player.player_projectiles, enemies, True, True)
+    collisions_with_bumpers = pygame.sprite.groupcollide(player.player_projectiles, bumpers, True, True)
+    player_collisions = pygame.sprite.groupcollide(pygame.sprite.Group(player), enemies, False, True)
+    player_collisions_with_bumpers = pygame.sprite.groupcollide(pygame.sprite.Group(player), bumpers, False, True)
 
     # Gestion des collisions des projectiles avec les ennemis
     for projectile, enemy_list in collisions.items():
