@@ -1,6 +1,4 @@
 import pygame
-import random
-from os import path
 
 
 class Bumper(pygame.sprite.Sprite):

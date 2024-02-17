@@ -5,40 +5,39 @@ from flame import Flame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, surface, all_sprites, player_projectiles, player_flames, shoot_sound):
+    def __init__(self):
         super().__init__()
         self.img_dir_player = path.join(path.dirname(__file__), "assets/img/player")
+        self.snd_dir = path.join(path.dirname(__file__), "assets/sounds")
+        self.shoot_sound = pygame.mixer.Sound(path.join(self.snd_dir, "shoot_player.wav"))
+        self.shoot_sound.set_volume(0.1)
         self.player_img = pygame.image.load(path.join(self.img_dir_player, "ship.png"))
         self.player_imgR = pygame.image.load(path.join(self.img_dir_player, "ship_right.png"))
         self.player_imgL = pygame.image.load(path.join(self.img_dir_player, "ship_left.png"))
-        self.surface = surface
         self.image = pygame.transform.scale(self.player_img, (75, 60))
-        self.image.set_colorkey((0, 0, 0))
         self.all_projectiles = pygame.sprite.Group()
+        self.player_projectiles = pygame.sprite.Group()
+        self.player_flames = pygame.sprite.Group()
         self.health = 300
         self.max_health = 300
         self.shield = 100
         self.max_shield = 300
-        self.velocity = 3
+        self.velocity = 5
         self.power = 5
         self.score = 0
         self.shot_delay = 180
         self.rect = self.image.get_rect()
-        self.rect.y = surface.get_rect().height / 2 - 20
-        self.rect.x = surface.get_rect().width - 1900
+        self.rect.y = 540
+        self.rect.x = 20
         self.last_shot = pygame.time.get_ticks()
-        self.all_sprites = all_sprites
-        self.player_projectiles = player_projectiles
-        self.player_flames = player_flames
         self.flame = Flame(self.rect.x, self.rect.y, self)
-        self.shot_sound = shoot_sound
         self.body_damage = 100
 
     def create_flame(self, all_sprites):
         self.flame.rect.x = self.rect.x - 10
         self.flame.rect.y = self.rect.y + 20
         all_sprites.add(self.flame)
-        self.player_flames.add(self.flame)
+        self.player_flames.add()
 
     def damage(self, damage):
         if self.health > 0:
@@ -80,13 +79,12 @@ class Player(pygame.sprite.Sprite):
         if now - self.last_shot > self.shot_delay:
             self.last_shot = now
             y_offsets = [[25], [5, 45], [5, 25, 45], [0, 20, 40, 60], [-15, 5, 25, 45, 65]]
-            for i in range(1, 5):
-                projectiles = [Projectile(self.rect.x + 75, self.rect.y + y, 10, 0)
-                               for y in y_offsets[self.power - 1][:self.power]]
-                self.all_sprites.add(projectiles)
-                self.player_projectiles.add(projectiles)
-                self.shot_sound.play()
+            for y in y_offsets[self.power - 1][:self.power]:
+                projectile = Projectile(self.rect.x + 75, self.rect.y + y, 10, 0)
+                self.all_projectiles.add(projectile)
+                self.player_projectiles.add(projectile)
+            self.shoot_sound.play()
 
     def reset_pos(self):
-        self.rect.y = self.surface.get_rect().height / 2 - 20
-        self.rect.x = self.surface.get_rect().width - 1900
+        self.rect.y = 540
+        self.rect.x = 20
