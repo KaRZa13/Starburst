@@ -30,29 +30,6 @@ clock = pygame.time.Clock()
 background = pygame.image.load(path.join(img_dir_effect, "background.png"))
 background_rect = background.get_rect()
 
-# Enemy
-enemies_color = ["bleu", "rouge", "vert", "jaune", "violet", "rose"]
-enemies_img = []
-for i in range(20):
-    for color in enemies_color:
-        enemy_file = f"{i + 1}-{color}.png"
-        img = pygame.image.load(path.join(img_dir_enemy, enemy_file))
-        img.set_colorkey(WHITE)
-        enemies_img.append(img)
-
-# Bumpers
-bumper_anim = {"blue": [], "red": [], "green": []}
-for i in range(7):
-    bumper_blue_file = f"bumper_blue_{i + 1}.png"
-    bumper_red_file = f"bumper_red_{i + 1}.png"
-    bumper_green_file = f"bumper_green_{i + 1}.png"
-    img = pygame.image.load(path.join(img_dir_enemy, bumper_blue_file))
-    bumper_anim["blue"].append(img)
-    img = pygame.image.load(path.join(img_dir_enemy, bumper_red_file))
-    bumper_anim["red"].append(img)
-    img = pygame.image.load(path.join(img_dir_enemy, bumper_green_file))
-    bumper_anim["green"].append(img)
-
 # Sprites
 all_sprites = pygame.sprite.Group()
 boss_projectiles = pygame.sprite.Group()
@@ -76,8 +53,8 @@ while running:
 
     if title_screen:
         screen.fill((0, 0, 0))
-        game.draw_text("Starburst", 64, WIDTH / 2, HEIGHT / 2 - 100, screen)
-        game.draw_text("Press any key to start", 36, WIDTH / 2, HEIGHT / 2, screen)
+        game.draw_text("Starburst", 64, WIDTH / 2, HEIGHT / 2 - 100)
+        game.draw_text("Press any key to start", 36, WIDTH / 2, HEIGHT / 2)
         pygame.display.flip()
 
         # Attendre que le joueur appuie sur une touche pour démarrer
@@ -93,9 +70,9 @@ while running:
 
     if game_over:
         screen.fill((0, 0, 0))
-        game.draw_text("Game Over", 64, WIDTH / 2, HEIGHT / 2, screen)
-        game.draw_text("Press any key to go to title", 36, WIDTH / 2, HEIGHT / 2 + 50, screen)
-        game.draw_text(f"Score : {game.player.score}", 36, WIDTH / 2, HEIGHT / 100, screen)
+        game.draw_text("Game Over", 64, WIDTH / 2, HEIGHT / 2)
+        game.draw_text("Press any key to go to title", 36, WIDTH / 2, HEIGHT / 2 + 50)
+        game.draw_text(f"Score : {game.player.score}", 36, WIDTH / 2, HEIGHT / 100)
         pygame.display.flip()
 
         # Attendre que le joueur appuie sur une touche pour redémarrer
@@ -128,7 +105,7 @@ while running:
     # Création des ennemies
     if not boss_spawned:
         if len(game.all_enemies) == 0:
-            pass  # game.spawn_enemy()
+            game.spawn_enemies()
 
     # Gestion des évènements (clavier)
     for event in pygame.event.get():
@@ -141,7 +118,7 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 if not game_pause:
-                    game.game_paused(WIDTH, HEIGHT, screen)
+                    game.game_paused(WIDTH, HEIGHT)
             if event.key == pygame.K_INSERT:
                 pass
 
@@ -196,7 +173,7 @@ while running:
     if not boss_spawned:
         bumper_loop += dt
         if bumper_loop >= 250:
-            game.spawn_bumper(bumper_anim, velocity)
+            game.spawn_bumper(velocity)
             bumper_loop = 0
             bumper_loop += dt
 
@@ -205,7 +182,7 @@ while running:
     background_rel_x = background_x % background_rect.width
 
     # Draw / Render
-    game.render(screen, background, background_rect, background_rel_x)
+    game.render(background, background_rect, background_rel_x)
 
     """if level == boss_level:
         boss_spawned = True

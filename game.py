@@ -8,37 +8,38 @@ class Game:
     def __init__(self, screen):
         self.screen = screen
         self.player = Player()
+        self.bumper = Bumper()
         self.all_sprites = pygame.sprite.Group()
         self.all_enemies = pygame.sprite.Group()
         self.all_bumpers = pygame.sprite.Group()
         self.pressed = {}
         self.level = 1
 
-    def render(self, screen, background, background_rect, background_rel_x):
-        screen.blit(background, (background_rel_x - background_rect.width, 0))
-        screen.blit(background, (background_rel_x, 0))
-        screen.blit(self.player.image, self.player.rect)
-        self.player.all_projectiles.draw(screen)
+    def render(self, background, background_rect, background_rel_x):
+        self.screen.blit(background, (background_rel_x - background_rect.width, 0))
+        self.screen.blit(background, (background_rel_x, 0))
+        self.screen.blit(self.player.image, self.player.rect)
+        self.player.all_projectiles.draw(self.screen)
         self.player.all_projectiles.update()
-        self.all_sprites.draw(screen)
-        self.player.update_bar(screen)
+        self.all_sprites.draw(self.screen)
+        self.player.update_bar(self.screen)
         self.player.create_flame(self.all_sprites)
         self.all_sprites.update()
         self.player.update()
-        self.draw_text(f"Score : {self.player.score}", 20, 10, 10, screen)
-        self.draw_text(f"Health : {self.player.health}", 20, 10, 40, screen)
-        self.draw_text(f"Level : {self.level}", 20, 10, 70, screen)
+        self.draw_text(f"Score : {self.player.score}", 20, 10, 10)
+        self.draw_text(f"Health : {self.player.health}", 20, 10, 40)
+        self.draw_text(f"Level : {self.level}", 20, 10, 70)
 
-    def draw_text(self, text, size, x, y, surface):
+    def draw_text(self, text, size, x, y):
         font_name = pygame.font.match_font("arial")
         font = pygame.font.Font(font_name, size)
         text_surface = font.render(text, True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(x, y))
-        surface.blit(text_surface, text_rect.center)
+        self.screen.blit(text_surface, text_rect.center)
 
-    def game_paused(self, WIDTH, HEIGHT, surface):
+    def game_paused(self, WIDTH, HEIGHT):
         game_paused = True
-        self.draw_text("Game paused", 64, WIDTH / 2 - 175, HEIGHT / 2 - 25, surface)
+        self.draw_text("Game paused", 64, WIDTH / 2 - 175, HEIGHT / 2 - 25)
         pygame.display.flip()
         while game_paused:
             for event in pygame.event.get():
@@ -49,10 +50,11 @@ class Game:
                     if event.key == pygame.K_ESCAPE:
                         game_paused = False
 
-    def spawn_bumper(self, bumper_anim, velocity):
-        y = random.randint(80, 1000)
-        color = random.choice(["blue", "red", "green"])
-        bumper = Bumper(2000, y, bumper_anim[color])
+    def level(self):
+        pass
+
+    def spawn_bumper(self, velocity):
+        bumper = Bumper()
         bumper.velocity = velocity
         self.all_sprites.add(bumper)
         self.all_bumpers.add(bumper)
