@@ -5,7 +5,7 @@ from os import path
 
 class Bumper(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.img_dir_enemy = path.join(path.dirname(__file__), "assets/img/enemy")
         self.color = random.choice(["blue", "red", "green"])
@@ -33,13 +33,13 @@ class Bumper(pygame.sprite.Sprite):
         self.points = 5
         self.body_damage = 50
 
-    def update(self):
+    def update(self) -> None:
         self.anime()
         self.rect.x -= self.velocity
         if self.rect.x < -200:
             self.kill()
 
-    def anime(self):
+    def anime(self) -> None:
         now = pygame.time.get_ticks()
         if now - self.last_update > 180:
             self.last_update = now

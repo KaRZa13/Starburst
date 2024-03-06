@@ -4,7 +4,7 @@ import math
 
 
 class Boss(pygame.sprite.Sprite):
-    def __init__(self, surface, all_sprites, boss_projectiles, shoot_sound, player):
+    def __init__(self, surface, all_sprites, boss_projectiles, shoot_sound, player) -> None:
         super().__init__()
         self.img_dir_boss = path.join(path.dirname(__file__), "assets/img/enemy")
         self.player_img = pygame.image.load(path.join(self.img_dir_boss, "9-rose.png"))
@@ -24,13 +24,13 @@ class Boss(pygame.sprite.Sprite):
         self.shoot_delay = 500
         self.last_shoot_time = pygame.time.get_ticks()
 
-    def update(self):
+    def update(self) -> None:
         self.shoot(self.player)
 
-    def move(self):
+    def move(self) -> None:
         self.rect.x += self.velocity
 
-    def shoot(self, player):
+    def shoot(self, player) -> None:
         now = pygame.time.get_ticks()
         if now - self.last_shoot_time > self.shoot_delay:
             # Calcul de l'angle entre le boss et le joueur

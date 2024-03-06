@@ -5,7 +5,7 @@ from flame import Flame
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.img_dir_player = path.join(path.dirname(__file__), "assets/img/player")
         self.snd_dir = path.join(path.dirname(__file__), "assets/sounds")
@@ -33,17 +33,17 @@ class Player(pygame.sprite.Sprite):
         self.flame = Flame(self.rect.x, self.rect.y, self)
         self.body_damage = 100
 
-    def create_flame(self, all_sprites):
+    def create_flame(self, all_sprites) -> None:
         self.flame.rect.x = self.rect.x - 10
         self.flame.rect.y = self.rect.y + 20
         all_sprites.add(self.flame)
         self.player_flames.add()
 
-    def damage(self, damage):
+    def damage(self, damage) -> None:
         if self.health > 0:
             self.health -= damage
 
-    def update_bar(self, surface):
+    def update_bar(self, surface) -> None:
         # Shield bar
         pygame.draw.rect(surface, (255, 255, 255), [8, 1028, self.max_health + 4, 14])
         pygame.draw.rect(surface, (60, 63, 60), [10, 1030, self.max_shield, 10])
@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
         pygame.draw.rect(surface, (60, 63, 60), [10, 1050, self.max_health, 10])
         pygame.draw.rect(surface, (111, 210, 46), [10, 1050, self.health, 10])
 
-    def update(self):
+    def update(self) -> None:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_z]:
             self.image = pygame.transform.scale(self.player_imgL, (75, 60))
@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_SPACE]:
             self.shoot()
 
-    def shoot(self):
+    def shoot(self) -> None:
         now = pygame.time.get_ticks()
         if now - self.last_shot > self.shot_delay:
             self.last_shot = now
@@ -85,6 +85,6 @@ class Player(pygame.sprite.Sprite):
                 self.player_projectiles.add(projectile)
             self.shoot_sound.play()
 
-    def reset_pos(self):
+    def reset_pos(self) -> None:
         self.rect.y = 540
         self.rect.x = 20

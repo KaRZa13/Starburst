@@ -3,7 +3,7 @@ from os import path
 
 
 class Flame(pygame.sprite.Sprite):
-    def __init__(self, x, y, player):
+    def __init__(self, x, y, player) -> None:
         super().__init__()
         self.player = player
         self.img_dir_flame = path.join(path.dirname(__file__), "assets/img/effect")

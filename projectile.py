@@ -3,7 +3,7 @@ from os import path
 
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self, x, y, speedx, speedy):
+    def __init__(self, x, y, speedx, speedy) -> None:
         super().__init__()
         self.img_dir_fire = path.join(path.dirname(__file__), "assets/img/fire")
         self.image = pygame.image.load(path.join(self.img_dir_fire, "hit_1_blue.png"))
@@ -17,7 +17,7 @@ class Projectile(pygame.sprite.Sprite):
         self.speedy = speedy
         self.damage = 100
 
-    def update(self):
+    def update(self) -> None:
         self.rect.x += self.speedx
         self.rect.y += self.speedy
         if self.rect.x > 2000:

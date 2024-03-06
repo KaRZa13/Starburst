@@ -5,7 +5,7 @@ from math import sin
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.img_dir_enemy = path.join(path.dirname(__file__), "assets/img/enemy")
         self.enemies_color = ["bleu", "rouge", "vert", "jaune", "violet", "rose"]
@@ -25,10 +25,10 @@ class Enemy(pygame.sprite.Sprite):
         self.speedy = 0
         self.angle = 0
 
-    def is_alive(self):
+    def is_alive(self) -> bool:
         return self.health < 0
 
-    def update(self):
+    def update(self) -> None:
         move = choice(["line_up", "line_down", "diagonal",
                        "sin_x", "sin_up", "sin_down"])
         match move:
