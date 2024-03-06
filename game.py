@@ -2,6 +2,7 @@ import pygame
 import random
 from bumper import Bumper
 from player import Player
+from enemy import Enemy
 
 
 class Game:
@@ -9,6 +10,7 @@ class Game:
         self.screen = screen
         self.player = Player()
         self.bumper = Bumper()
+        self.enemy = Enemy()
         self.all_sprites = pygame.sprite.Group()
         self.all_enemies = pygame.sprite.Group()
         self.all_bumpers = pygame.sprite.Group()
@@ -60,12 +62,8 @@ class Game:
         self.all_bumpers.add(bumper)
 
     def spawn_enemies(self):
-        pass
+        enemy = Enemy()
+        self.all_sprites.add(enemy)
+        self.all_enemies.add(enemy)
 
 
-'''def spawn_enemy(self):
-min_enemy = player.power * 2
-max_enemy = player.power * 5
-nb = random.randrange(min_enemy, max_enemy)
-move = random.choice(["line", "line_up", "line_down", "diagonal", "sin_x", "sin_up", "sin_down"])
-enemy = Enemy(img, move)'''
